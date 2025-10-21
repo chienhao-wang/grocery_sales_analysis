@@ -43,12 +43,6 @@ CREATE TABLE customers (
   FOREIGN KEY (CityID) REFERENCES cities (CityID)
 );
 
-SET GLOBAL LOCAL_INFILE = ON;
-
-LOAD DATA LOCAL INFILE '‪D:/11_Project/Grocery Sales/customers.csv' INTO TABLE customers 
-FIELDS TERMINATED BY ',' 
-IGNORE 1 LINES;
-
 -- Create employees table and directly import csv file
 CREATE TABLE employees (
   EmployeeID INT NOT NULL,
@@ -96,10 +90,6 @@ CREATE TABLE sales (
   FOREIGN KEY (CustomerID) REFERENCES customers (CustomerID),
   FOREIGN KEY (ProductID) REFERENCES products (ProductID)
 );
-
-LOAD DATA LOCAL INFILE '‪D:/11_Project/Grocery Sales/sales.csv' INTO TABLE sales 
-FIELDS TERMINATED BY ',' 
-IGNORE 1 LINES;
 
 -- Because some SalesDate columns contain empty value, I convert empty values into null
 UPDATE sales
