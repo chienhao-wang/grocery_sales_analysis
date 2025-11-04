@@ -94,6 +94,10 @@ SELECT
 	c.CategoryName,
 	COUNT(SalesID) AS number_of_sales,
 	ROUND((SUM(Total_price) / 1000000), 4) AS "total_sales (million)",
+    ROUND(
+        SUM(Total_price) * 100.0 / SUM(SUM(Total_price)) OVER (),
+        2
+    ) AS "sales_percentage",
 	RANK () OVER (ORDER BY SUM(Total_price) DESC) AS rank_by_category
 FROM vw_sales_product sp
 LEFT JOIN categories c
@@ -153,7 +157,8 @@ LIMIT 10;
 SELECT
   ROUND(Discount, 4) AS discount_rate,
   SUM(Quantity) AS total_units,
-  ROUND((SUM(Total_price) / 1000000), 4) AS "total_sales (million)"
+  ROUND((SUM(Total_price) / 1000000), 4) AS "total_sales (million)",
+  ROUND(SUM(Total_price) / SUM(Quantity), 4) AS sales_by_per_unit
 FROM vw_sales_product
 GROUP BY discount_rate
 ORDER BY discount_rate;
@@ -163,6 +168,7 @@ WITH sales_salesperson AS (
 	SELECT 
 		s.SalesID,
 		s.SalesPersonID,
+		s.SalesDate,
 		e.FirstName, 
 		e.MiddleInitial,
 		e.LastName,
@@ -178,11 +184,11 @@ WITH sales_salesperson AS (
 SELECT
 	SalesPersonID,
 	CONCAT(FirstName, " ", LastName) AS full_name,
+	MAX(YEAR(SalesDate)) - YEAR(HireDate) AS "tenure (years)",
 	COUNT(SalesID) AS number_of_sales,
 	ROUND((SUM(Total_price) / 1000000), 4) AS "total_sales (million)",
 	RANK() OVER (ORDER BY SUM(Total_price) DESC) AS rank_by_salesperson
 FROM sales_salesperson
-GROUP BY SalesPersonID, full_name
+GROUP BY SalesPersonID, full_name, HireDate
 ORDER BY SUM(Total_price) DESC
 LIMIT 10;
-
