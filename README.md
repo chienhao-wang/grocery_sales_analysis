@@ -3,6 +3,10 @@
 A **SQL-based end-to-end data analysis project** exploring the operational and sales performance of a grocery retail business **between January 2018 and May 2018**.  
 This project covers database schema design, data cleaning, and analytical queries to derive key business insights from structured sales data.
 
+![Status](https://img.shields.io/badge/Status-Project_Completed-success)
+![SQL](https://img.shields.io/badge/SQL-Data_Extraction-4479A1?style=flat&logo=postgresql&logoColor=white)
+![Tableau](https://img.shields.io/badge/Tableau-Dashboarding-E97627?style=flat&logo=tableau&logoColor=white)
+
 ---
 
 ## ⫶☰ Table of Contents
